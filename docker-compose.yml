@@ -1,0 +1,37 @@
+version: '3.5'
+services:
+  contractsapi:
+    image: contractsapi
+    restart: on-failure
+    ports:
+      - 8090:8090
+      - 5005:5005
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    environment:
+      - DATABASE_HOST=mysql
+      - DATABASE_NAME=contracts_db
+      - DATABASE_PORT=3306
+      - DATABASE_PROTOCOL=mysql
+
+  mysql:
+    image: mysql:8.0
+    hostname: mysql
+    restart: on-failure
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=contracts_db
+      - MYSQL_ROOT_HOST=%
+    ports:
+      - 3306:3306
+    security_opt:
+      - seccomp:unconfined
+    cap_add:
+      - SYS_NICE
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root--execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 10
