@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -41,6 +42,8 @@ public class ContractRepositoryTest {
         contractEntity = new ContractEntity();
         contractEntity.setClient(clientEntity);
         contractEntity.setService(serviceEntity);
+        contractEntity.setBeginDate(ZonedDateTime.now());
+        contractEntity.setEndDate(ZonedDateTime.now());
         contractEntity.setNumber("123");
         contractEntity.setId(3L);
     }
